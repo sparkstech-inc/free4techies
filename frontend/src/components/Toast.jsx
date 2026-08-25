@@ -25,8 +25,8 @@ export function ToastProvider({ children }) {
               t.type === 'error'
                 ? 'bg-red-50 text-red-800 ring-red-200 dark:bg-red-950 dark:text-red-200 dark:ring-red-800'
                 : t.type === 'success'
-                ? 'bg-brand-50 text-brand-800 ring-brand-200 dark:bg-brand-950 dark:text-brand-200 dark:ring-brand-800'
-                : 'bg-white text-slate-800 ring-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700'
+                ? 'bg-ink-900 text-white ring-ink-900 dark:bg-white dark:text-ink-950 dark:ring-white'
+                : 'bg-white text-ink-800 ring-ink-200 dark:bg-ink-800 dark:text-ink-100 dark:ring-ink-700'
             }`}
           >
             {t.title && <p className="font-semibold">{t.title}</p>}

@@ -1,4 +1,5 @@
-// TierBadge - color-coded label for a resource's free tier type.
+// TierBadge — monochrome label for a resource's free tier type.
+// Differentiated by fill/border style, not color (B/W theme).
 export default function TierBadge({ tier }) {
   const labels = {
     'free-tier': 'Free Tier',

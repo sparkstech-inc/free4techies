@@ -8,17 +8,19 @@
 
 html {
   scroll-behavior: smooth;
+  /* offset so anchor jumps don't hide behind the sticky header */
+  scroll-padding-top: 5rem;
 }
 
 body {
-  @apply bg-slate-50 text-slate-800 antialiased;
+  @apply bg-white text-ink-800 antialiased;
 }
 
 .dark body {
-  @apply bg-slate-950 text-slate-200;
+  @apply bg-ink-950 text-ink-200;
 }
 
-/* Custom scrollbar */
+/* ── Custom scrollbar (monochrome) ── */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -27,60 +29,119 @@ body {
   @apply bg-transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+  @apply bg-ink-300 dark:bg-ink-700 rounded-full;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400 dark:bg-slate-600;
+  @apply bg-ink-400 dark:bg-ink-600;
 }
 
 @layer components {
+  /* ── Buttons (B/W) ── */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink-900 dark:focus:ring-ink-100 dark:focus:ring-offset-ink-950 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-primary {
-    @apply btn bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-sm hover:shadow;
+    @apply btn bg-ink-900 text-white hover:bg-ink-800 active:bg-black dark:bg-white dark:text-ink-950 dark:hover:bg-ink-200;
   }
   .btn-secondary {
-    @apply btn bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700;
+    @apply btn bg-white text-ink-800 ring-1 ring-ink-200 hover:bg-ink-50 dark:bg-ink-900 dark:text-ink-100 dark:ring-ink-700 dark:hover:bg-ink-800;
   }
   .btn-ghost {
-    @apply btn text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800;
+    @apply btn text-ink-600 hover:bg-ink-100 dark:text-ink-300 dark:hover:bg-ink-800;
   }
+
+  /* ── Cards / panels ── */
   .card {
-    @apply rounded-xl bg-white ring-1 ring-slate-200 shadow-sm dark:bg-slate-900 dark:ring-slate-800;
+    @apply rounded-lg bg-white ring-1 ring-ink-200 dark:bg-ink-900 dark:ring-ink-800;
   }
+
+  /* ── Form inputs (B/W) ── */
   .input {
-    @apply w-full rounded-lg border-0 bg-white px-3 py-2.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-brand-500 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500 transition;
+    @apply w-full rounded-md border-0 bg-white px-3 py-2.5 text-ink-900 ring-1 ring-inset ring-ink-300 placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-ink-900 dark:bg-ink-900 dark:text-ink-100 dark:ring-ink-700 dark:placeholder:text-ink-500 dark:focus:ring-ink-300 transition;
   }
   .label {
-    @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5;
+    @apply block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1.5;
   }
+
+  /* ── Tier badges (monochrome — differentiated by border/style, not color) ── */
   .chip {
-    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-medium;
   }
   .badge-tier {
-    @apply chip ring-1 ring-inset;
+    @apply chip ring-1 ring-inset whitespace-nowrap;
   }
   .badge-tier-free-tier {
-    @apply badge-tier bg-brand-50 text-brand-700 ring-brand-200 dark:bg-brand-950 dark:text-brand-300 dark:ring-brand-800;
+    @apply badge-tier bg-ink-900 text-white ring-ink-900 dark:bg-white dark:text-ink-950 dark:ring-white;
   }
   .badge-tier-free-trial {
-    @apply badge-tier bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800;
+    @apply badge-tier bg-white text-ink-700 ring-ink-300 dark:bg-ink-900 dark:text-ink-300 dark:ring-ink-600;
   }
   .badge-tier-free-forever {
-    @apply badge-tier bg-sky-50 text-sky-700 ring-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:ring-sky-800;
+    @apply badge-tier bg-ink-100 text-ink-800 ring-ink-400 dark:bg-ink-800 dark:text-ink-100 dark:ring-ink-500;
   }
   .badge-tier-open-source {
-    @apply badge-tier bg-fuchsia-50 text-fuchsia-700 ring-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-300 dark:ring-fuchsia-800;
+    @apply badge-tier border border-dashed border-ink-500 text-ink-600 dark:text-ink-300 dark:border-ink-500;
   }
+
   .section-link {
-    @apply text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 font-medium;
+    @apply text-ink-900 underline decoration-ink-300 underline-offset-2 hover:decoration-ink-900 dark:text-white dark:decoration-ink-600 dark:hover:decoration-white font-medium;
+  }
+
+  /* ── Resource list (the free-for.dev style) ── */
+  .resource-list {
+    @apply space-y-10;
+  }
+  .resource-section h2 {
+    @apply text-xl font-bold text-ink-900 dark:text-white sm:text-2xl;
+    @apply border-b border-ink-200 dark:border-ink-800 pb-2 mb-1;
+  }
+  .resource-section h2 .anchor-hash {
+    @apply ml-2 text-ink-300 opacity-0 transition no-underline dark:text-ink-600;
+  }
+  .resource-section h2:hover .anchor-hash {
+    @apply opacity-100;
+  }
+  .resource-section > p {
+    @apply text-sm text-ink-500 dark:text-ink-400 mb-3;
+  }
+  .entry-list {
+    @apply list-none space-y-1.5 pl-0;
+  }
+  .entry-list > li {
+    @apply relative pl-5;
+  }
+  .entry-list > li::before {
+    content: '';
+    @apply absolute left-0 top-[0.6em] h-1.5 w-1.5 rounded-full bg-ink-400 dark:bg-ink-500;
+  }
+  .entry-name {
+    @apply font-semibold text-ink-900 underline decoration-ink-300 decoration-1 underline-offset-2 hover:decoration-ink-900 dark:text-white dark:decoration-ink-600 dark:hover:decoration-white;
+  }
+  .entry-desc {
+    @apply text-ink-600 dark:text-ink-400;
+  }
+  .entry-meta {
+    @apply flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-400 dark:text-ink-500;
+  }
+  .tag {
+    @apply rounded bg-ink-100 px-1.5 py-0.5 font-mono text-[10px] text-ink-500 dark:bg-ink-800 dark:text-ink-400;
+  }
+  .sub-bullets {
+    @apply list-disc pl-5 mt-1 space-y-0.5 text-sm text-ink-600 dark:text-ink-400;
+  }
+
+  /* ── Table of Contents sidebar ── */
+  .toc-link {
+    @apply block truncate rounded px-2 py-1 text-sm text-ink-500 transition hover:bg-ink-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-white;
+  }
+  .toc-link.active {
+    @apply bg-ink-100 font-semibold text-ink-900 dark:bg-ink-800 dark:text-white;
   }
 }
 
-/* Skeleton shimmer */
+/* ── Skeleton shimmer ── */
 .skeleton {
-  @apply relative overflow-hidden bg-slate-200 dark:bg-slate-800 rounded;
+  @apply relative overflow-hidden bg-ink-200 dark:bg-ink-800 rounded;
 }
 .skeleton::after {
   content: '';
@@ -98,4 +159,24 @@ body {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* ── Prose helpers for About page ── */
+.prose h2 {
+  @apply text-xl font-bold text-ink-900 dark:text-white mt-8 mb-3;
+}
+.prose p {
+  @apply text-ink-700 dark:text-ink-300 leading-relaxed mb-4;
+}
+.prose ul {
+  @apply list-disc pl-6 space-y-1.5 text-ink-700 dark:text-ink-300 mb-4;
+}
+.prose code {
+  @apply rounded bg-ink-100 px-1 py-0.5 font-mono text-sm text-ink-800 dark:bg-ink-800 dark:text-ink-200;
+}
+.prose a {
+  @apply text-ink-900 underline decoration-ink-300 underline-offset-2 hover:decoration-ink-900 dark:text-white dark:decoration-ink-600 dark:hover:decoration-white;
+}
+.prose strong {
+  @apply font-semibold text-ink-900 dark:text-white;
 }

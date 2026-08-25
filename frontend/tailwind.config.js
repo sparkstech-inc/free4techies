@@ -5,23 +5,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#eefbf4',
-          100: '#d6f5e3',
-          200: '#b0e9cb',
-          300: '#7ad6ab',
-          400: '#43bd85',
-          500: '#1fa36b',
-          600: '#128354',
-          700: '#0f6a46',
-          800: '#10543a',
-          900: '#0e4531',
-          950: '#062719',
-        },
-        accent: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
+        // Pure black & white monochrome palette — no brand colors.
+        // Everything is expressed in ink (black) tones for light mode
+        // and paper (white-ish) tones for dark mode.
+        ink: {
+          0: '#ffffff',
+          50: '#fafafa',
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
+          950: '#09090b',
+          1000: '#000000',
         },
       },
       fontFamily: {

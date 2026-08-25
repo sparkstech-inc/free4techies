@@ -1,21 +1,5 @@
 // SubmitPage — submit a new free resource WITHOUT logging in.
-//
-// There is no backend and no auth. The form validates the entry
-// client-side (mirroring the GitHub Action validator), then generates a
-// pre-filled GitHub issue URL whose body contains the structured
-// submission. Opening that URL takes the user to GitHub's "new issue"
-// page with everything pre-filled — they just click "Submit new issue".
-//
-// A GitHub Action (`.github/workflows/issue-submission.yml`) listens for
-// new issues labeled `resource-submission`, parses the structured body,
-// validates it, writes the updated `resources.json` to a new branch,
-// opens a pull request, and auto-merges it if valid. If validation
-// fails, the Action comments on the issue with the errors and closes it.
-//
-// No token is ever present in the frontend. No OAuth. No login wall on
-// this site. The only thing the user needs is a (free) GitHub account to
-// post the issue — which is the same requirement as opening a PR on any
-// open-source project.
+// B/W monochrome theme. No backend, no auth.
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api.js';
@@ -70,14 +54,8 @@ function validateLocal(form) {
   return errors;
 }
 
-// Build the structured issue body the GitHub Action parses.
-// The Action looks for fenced ```json blocks with a known shape.
 function buildIssueBody(form) {
-  const tags = form.tags
-    .split(',')
-    .map((t) => t.trim().toLowerCase())
-    .filter(Boolean);
-
+  const tags = form.tags.split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
   const payload = {
     categoryName: form.categoryName.trim(),
     newCategoryDescription: form.newCategoryDescription.trim() || null,
@@ -127,19 +105,13 @@ export default function SubmitPage() {
 
   const submit = (e) => {
     e.preventDefault();
-    setTouched({
-      categoryName: true, name: true, url: true, description: true, tags: true, submittedBy: true,
-    });
+    setTouched({ categoryName: true, name: true, url: true, description: true, tags: true, submittedBy: true });
     if (!isValid) {
       push({ type: 'error', title: 'Check the form', message: 'Please fix the highlighted fields.' });
       return;
     }
 
     setSubmitting(true);
-
-    // Build the pre-filled GitHub issue URL. No token, no fetch — we
-    // just hand the user a URL to open. GitHub renders the issue form
-    // with the title + body pre-filled.
     const title = `[Resource] ${form.name.trim()}`;
     const body = buildIssueBody(form);
     const url =
@@ -160,56 +132,47 @@ export default function SubmitPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-2xl">
         <div className="mb-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-2xl font-extrabold tracking-tight text-ink-900 dark:text-white sm:text-3xl">
             Submit a free resource
           </h1>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">
+          <p className="mt-2 text-ink-600 dark:text-ink-400">
             Fill in the details below — no account or login required on this
             site. When you're ready, we'll generate a pre-filled GitHub issue.
             A GitHub Action validates your submission and auto-merges a pull
             request that updates{' '}
-            <code className="rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800">resources.json</code>.
+            <code className="rounded bg-ink-100 px-1 py-0.5 text-sm dark:bg-ink-800">resources.json</code>.
             You only need a (free) GitHub account to post the issue.
           </p>
         </div>
 
-        {/* success state */}
         {result && (
-          <div className="mb-6 animate-fade-in rounded-xl border border-brand-200 bg-brand-50 p-6 dark:border-brand-800 dark:bg-brand-950">
+          <div className="mb-6 animate-fade-in rounded-lg border border-ink-300 bg-ink-50 p-6 dark:border-ink-700 dark:bg-ink-900">
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-900 text-white dark:bg-white dark:text-ink-950">
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                   <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-lg font-bold text-brand-800 dark:text-brand-200">
+                <h2 className="text-lg font-bold text-ink-900 dark:text-white">
                   Your submission is ready!
                 </h2>
-                <p className="mt-1 text-sm text-brand-700 dark:text-brand-300">
+                <p className="mt-1 text-sm text-ink-600 dark:text-ink-400">
                   Open the GitHub issue below, review the pre-filled details,
-                  and click <strong>“Submit new issue”</strong>. Within a
+                  and click <strong>"Submit new issue"</strong>. Within a
                   minute, a bot will validate your entry and open an
                   auto-merging pull request.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <a
-                    href={result.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn-primary"
-                  >
+                  <a href={result.url} target="_blank" rel="noreferrer" className="btn-primary">
                     <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.02 11.02 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.42.36.79 1.08.79 2.18 0 1.58-.01 2.85-.01 3.24 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z" />
                     </svg>
                     Open GitHub issue →
                   </a>
-                  <button
-                    onClick={() => setResult(null)}
-                    className="btn-ghost"
-                  >
+                  <button onClick={() => setResult(null)} className="btn-ghost">
                     Submit another
                   </button>
                 </div>
@@ -219,7 +182,6 @@ export default function SubmitPage() {
         )}
 
         <form onSubmit={submit} className="space-y-6">
-          {/* Category */}
           <Field
             label="Category"
             hint="Pick an existing category, or type a new one to create it."
@@ -240,7 +202,7 @@ export default function SubmitPage() {
             </datalist>
             {form.categoryName &&
               !categories.some((c) => c.name.toLowerCase() === form.categoryName.toLowerCase()) && (
-                <div className="mt-2 rounded-md bg-sky-50 p-3 text-xs text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
+                <div className="mt-2 rounded-md bg-ink-100 p-3 text-xs text-ink-600 dark:bg-ink-800 dark:text-ink-300">
                   ✨ New category. Add a short description (optional):
                   <input
                     value={form.newCategoryDescription}
@@ -252,7 +214,6 @@ export default function SubmitPage() {
               )}
           </Field>
 
-          {/* Name + URL */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <Field label="Resource name" error={touched.name && errors.name}>
               <input
@@ -275,7 +236,6 @@ export default function SubmitPage() {
             </Field>
           </div>
 
-          {/* Description */}
           <Field
             label="Description"
             hint="What's free about it? Be specific about limits."
@@ -293,7 +253,6 @@ export default function SubmitPage() {
             />
           </Field>
 
-          {/* Tier */}
           <Field label="Tier type">
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {TIERS.map((t) => (
@@ -301,23 +260,21 @@ export default function SubmitPage() {
                   type="button"
                   key={t.value}
                   onClick={() => set('tier', t.value)}
-                  className={`rounded-lg border p-3 text-left transition ${
+                  className={`rounded-md border p-3 text-left transition ${
                     form.tier === t.value
-                      ? 'border-brand-500 bg-brand-50 ring-2 ring-brand-500 dark:bg-brand-950'
-                      : 'border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600'
+                      ? 'border-ink-900 bg-ink-900 text-white ring-2 ring-ink-900 dark:border-white dark:bg-white dark:text-ink-950 dark:ring-white'
+                      : 'border-ink-200 hover:border-ink-400 dark:border-ink-700 dark:hover:border-ink-500'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                      {t.label}
-                    </span>
+                    <span className="text-sm font-semibold">{t.label}</span>
                     {form.tier === t.value && (
-                      <svg className="h-4 w-4 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     )}
                   </div>
-                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t.desc}</p>
+                  <p className={`mt-1 text-xs ${form.tier === t.value ? 'opacity-80' : 'text-ink-500 dark:text-ink-400'}`}>{t.desc}</p>
                 </button>
               ))}
             </div>
@@ -326,7 +283,6 @@ export default function SubmitPage() {
             </div>
           </Field>
 
-          {/* Tags */}
           <Field
             label="Tags"
             hint="Comma-separated, 2–20 chars each, letters/numbers/hyphens."
@@ -341,7 +297,6 @@ export default function SubmitPage() {
             />
           </Field>
 
-          {/* Submitted by + note */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <Field
               label="Your GitHub handle (optional)"
@@ -366,27 +321,24 @@ export default function SubmitPage() {
             </Field>
           </div>
 
-          {/* Live preview */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/50">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <div className="rounded-lg border border-ink-200 bg-ink-50 p-4 dark:border-ink-800 dark:bg-ink-900/50">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-400">
               Live preview
             </p>
-            <div className="rounded-lg bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-900 dark:text-white">
+            <div className="rounded-md bg-white p-4 ring-1 ring-ink-200 dark:bg-ink-900 dark:ring-ink-800">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-ink-900 underline decoration-ink-300 underline-offset-2 dark:text-white dark:decoration-ink-600">
                   {form.name || 'Resource name'}
                 </span>
                 <TierBadge tier={form.tier} />
               </div>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              <p className="mt-2 text-sm text-ink-600 dark:text-ink-400">
                 {form.description || 'Your description will appear here.'}
               </p>
               {form.tags && (
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {form.tags.split(',').map((t) => t.trim().toLowerCase()).filter(Boolean).slice(0, 6).map((t, i) => (
-                    <span key={i} className="rounded bg-slate-100 px-1.5 py-0.5 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                      {t}
-                    </span>
+                    <span key={i} className="tag">{t}</span>
                   ))}
                 </div>
               )}
@@ -396,9 +348,7 @@ export default function SubmitPage() {
           <div className="flex items-center gap-3">
             <button type="submit" disabled={submitting} className="btn-primary">
               {submitting ? (
-                <>
-                  <Spinner /> Preparing…
-                </>
+                <><Spinner /> Preparing…</>
               ) : (
                 <>
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -408,11 +358,9 @@ export default function SubmitPage() {
                 </>
               )}
             </button>
-            <Link to="/" className="btn-ghost">
-              Cancel
-            </Link>
+            <Link to="/" className="btn-ghost">Cancel</Link>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-ink-400">
             By submitting, you agree your contribution may be edited or rejected.
             Duplicates and non-free services will not be accepted. No login is
             required on this site — you only need a GitHub account to post the
@@ -428,16 +376,14 @@ function Field({ label, hint, error, counter, children }) {
   return (
     <div>
       <div className="mb-1.5 flex items-baseline justify-between">
-        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-          {label}
-        </label>
-        {counter && <span className="text-xs text-slate-400">{counter}</span>}
+        <label className="text-sm font-medium text-ink-700 dark:text-ink-300">{label}</label>
+        {counter && <span className="text-xs text-ink-400">{counter}</span>}
       </div>
       {children}
       {error ? (
         <p className="mt-1 text-xs text-red-600 dark:text-red-400">{error}</p>
       ) : hint ? (
-        <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{hint}</p>
+        <p className="mt-1 text-xs text-ink-400 dark:text-ink-500">{hint}</p>
       ) : null}
     </div>
   );
