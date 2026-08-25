@@ -1,0 +1,150 @@
+# Validates and auto-merges pull requests that touch public/resources.json.
+#
+# This handles two cases:
+#   1. PRs opened by issue-to-pr.mjs (the issue-submission workflow) that
+#      couldn't merge immediately because branch-protection checks were
+#      still pending.
+#   2. External PRs opened directly on GitHub by contributors.
+#
+# On every PR that modifies resources.json, we run the schema validator.
+# If it passes AND the PR has the auto-merge label, we squash-merge it.
+# If it fails, we comment with the errors and request changes.
+#
+# No secrets — uses the built-in GITHUB_TOKEN.
+
+name: Validate & auto-merge PR
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/public/resources.json'
+    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      valid: ${{ steps.check.outputs.valid }}
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run validator
+        id: check
+        continue-on-error: true
+        run: |
+          set +e
+          output=$(node scripts/validate-resources.mjs frontend/public/resources.json 2>&1)
+          code=$?
+          echo "$output"
+          {
+            echo "log<<EOF"
+            echo "$output"
+            echo "EOF"
+            echo "valid=$([ $code -eq 0 ] && echo true || echo false)"
+          } >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Comment validation result on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const valid = '${{ steps.check.outputs.valid }}' === 'true';
+            const log = `${{ steps.check.outputs.log }}`;
+            const prNumber = context.payload.pull_request.number;
+            const body = valid
+              ? '✅ `resources.json` passed validation. Auto-merging…'
+              : `❌ \`resources.json\` failed validation:\n\n\`\`\`\n${log}\n\`\`\`\n\nPlease fix the issues above and push again.`;
+
+            // Remove any previous bot validation comment to keep the PR clean.
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            const prior = comments.data.find(c =>
+              c.user.type === 'Bot' &&
+              (c.body.includes('resources.json` passed validation') ||
+               c.body.includes('resources.json` failed validation'))
+            );
+            if (prior) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: prior.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              });
+            }
+
+            if (!valid) {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                event: 'REQUEST_CHANGES',
+                body: 'resources.json failed schema validation.',
+              });
+            }
+
+  auto-merge:
+    needs: validate
+    # Merge only when valid AND the PR carries the auto-merge label.
+    # (issue-to-pr.mjs adds this label to the PRs it opens; external
+    # contributors can request it by adding the label themselves if the
+    # repo allows, or a maintainer can add it.)
+    if: needs.validate.outputs.valid == 'true' && contains(github.event.pull_request.labels.*.name, 'auto-merge')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Squash-merge the PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            try {
+              await github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: prNumber,
+                merge_method: 'squash',
+              });
+              core.info(`Merged PR #${prNumber}`);
+            } catch (e) {
+              // If merge fails because checks are pending, enable auto-merge
+              // so GitHub merges it automatically once checks pass.
+              try {
+                await github.rest.pulls.updateBranch({
+                  owner,
+                  repo,
+                  pull_number: prNumber,
+                });
+              } catch (_) {}
+              core.warning(`Direct merge failed (${e.message}). Attempting to enable auto-merge…`);
+              await graphql(`mutation EnableAutoMerge($id: ID!, $method: PullRequestMergeMethod!) {
+                enablePullRequestAutoMerge(input: {pullRequestId: $id, mergeMethod: $method}) { clientMutationId }
+              }`, {
+                id: context.payload.pull_request.node_id,
+                method: 'SQUASH',
+              }).catch(err => core.warning(`Could not enable auto-merge: ${err.message}`));
+            }

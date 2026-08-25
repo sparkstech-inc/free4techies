@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/sparkstech-inc/free4techies/discussions
+    about: Ask questions, suggest features, or discuss the project.
+  - name: 🌐 Open the submit form
+    url: https://free4techies.pages.dev/submit
+    about: Prefer the pretty form? It generates this issue for you.

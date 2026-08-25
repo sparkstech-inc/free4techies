@@ -1,0 +1,15 @@
+{
+  "name": "free4techies",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A curated, searchable directory of free developer tools — better than free-for.dev. Pure static React frontend, resources.json in public/, GitHub Actions for auto-accepting submissions.",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "validate": "node scripts/validate-resources.mjs frontend/public/resources.json"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

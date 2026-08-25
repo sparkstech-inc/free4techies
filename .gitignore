@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output
+frontend/dist/
+dist/
+
+# Environment variables (never commit secrets!)
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.ver/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Screenshots (dev artifacts)
+.screenshots/

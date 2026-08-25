@@ -1,0 +1,53 @@
+name: 🚀 Resource submission
+description: Submit a new free resource to be added to the directory
+title: "[Resource] "
+labels: ["resource-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a free resource to **Free4Techies**!
+
+        If you arrived here from the [submit form](https://free4techies.pages.dev/submit),
+        the JSON block below is already filled in — just review it and click
+        **Submit new issue**. A bot will validate your entry and open an
+        auto-merging pull request.
+
+        If you're filing this manually, fill in the JSON block below following
+        the schema. Required fields: `categoryName`, `entry.name`,
+        `entry.url`, `entry.description`, `entry.tier`. Allowed tiers:
+        `free-tier`, `free-trial`, `free-forever`, `open-source`.
+
+  - type: textarea
+    id: submission
+    attributes:
+      label: Submission JSON
+      description: |
+        Do not remove the ```json fence. The bot parses the first JSON block.
+      value: |
+        ```json
+        {
+          "categoryName": "",
+          "newCategoryDescription": null,
+          "submitterNote": null,
+          "entry": {
+            "name": "",
+            "url": "",
+            "description": "",
+            "tier": "free-tier",
+            "tags": [],
+            "submittedBy": null
+          }
+        }
+        ```
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes for maintainers (optional)
+      description: Anything else we should know?
+    validations:
+      required: false

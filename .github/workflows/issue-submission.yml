@@ -1,0 +1,49 @@
+# Handles resource submissions created from the website's submit form.
+#
+# When a user posts an issue labeled "resource-submission", this Action
+# parses the embedded JSON, validates it, checks for duplicates, commits
+# an updated public/resources.json to a new branch, opens a pull request,
+# and auto-merges it (squash) if valid. On any validation failure it
+# comments on the issue with the exact errors and closes it.
+#
+# No secrets are required — it uses the built-in GITHUB_TOKEN, which has
+# push + PR + merge permissions on the repo (granted below).
+
+name: Issue → PR (auto-accept submission)
+
+on:
+  issues:
+    types: [opened, edited, reopened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: issue-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  process:
+    # Only run for issues that carry the resource-submission label.
+    if: contains(github.event.issue.labels.*.name, 'resource-submission')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Process submission → open & merge PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        run: node scripts/issue-to-pr.mjs

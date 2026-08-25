@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "name": "Free4Techies",
+    "tagline": "A curated list of free developer tools, services and tiers.",
+    "lastUpdated": "2025-01-01T00:00:00.000Z",
+    "version": "1.0.0"
+  },
+  "categories": [
+    {
+      "name": "Major Cloud Providers",
+      "slug": "major-cloud-providers",
+      "description": "Always-free limits from the big three (and friends).",
+      "entries": [
+        {
+          "name": "Google Cloud Platform",
+          "url": "https://cloud.google.com",
+          "description": "App Engine - 28 frontend instance hours per day, Cloud Functions - 2 million invocations/month, Cloud Run - 2 million requests/month, 5GB Cloud Storage, 1TB BigQuery queries/month, and more.",
+          "tier": "free-tier",
+          "tags": ["paas", "iaas", "gcp", "serverless"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Amazon Web Services",
+          "url": "https://aws.amazon.com",
+          "description": "1 million Lambda requests/month, 25GB DynamoDB, 1TB CloudFront egress, 100 build minutes on CodeBuild, 10 CloudWatch custom metrics. Full list at aws.amazon.com/free.",
+          "tier": "free-tier",
+          "tags": ["iaas", "aws", "serverless"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Microsoft Azure",
+          "url": "https://azure.microsoft.com",
+          "description": "1 million Functions requests/month, 10 App Service apps, 5GB Blob storage, 25GB Cosmos DB, 10 free parallel Azure Pipelines jobs for open source.",
+          "tier": "free-tier",
+          "tags": ["paas", "iaas", "azure", "serverless"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Oracle Cloud",
+          "url": "https://www.oracle.com/cloud/",
+          "description": "2 AMD compute VMs (1/8 OCPU, 1GB), 2 Arm Ampere A1 cores with 12GB memory, 200GB block storage, 10TB egress/month. Always-free, subject to idle reclamation.",
+          "tier": "free-tier",
+          "tags": ["iaas", "oracle", "compute"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Cloudflare",
+          "url": "https://www.cloudflare.com/",
+          "description": "Free DNS for unlimited domains, CDN + SSL, Workers (100k requests/day), R2 (10GB), D1 (1GB), Pages (500 builds/month), and Tunnel for exposing local ports.",
+          "tier": "free-tier",
+          "tags": ["cdn", "edge", "serverless", "dns"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Source Code Repos",
+      "slug": "source-code-repos",
+      "description": "Git hosting with free tiers.",
+      "entries": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/",
+          "description": "Unlimited public and private repositories with unlimited collaborators. Includes CI/CD (Actions), Codespaces, Pages, Packages, Projects and Copilot.",
+          "tier": "free-tier",
+          "tags": ["git", "ci-cd", "hosting"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "GitLab",
+          "url": "https://about.gitlab.com/",
+          "description": "Unlimited public and private Git repos with up to 5 collaborators. Includes CI/CD, container registry, static hosting and issue tracking.",
+          "tier": "free-tier",
+          "tags": ["git", "ci-cd", "hosting"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Codeberg",
+          "url": "https://codeberg.org/",
+          "description": "Unlimited public and private repos for free and open-source projects with unlimited collaborators. Powered by Forgejo with Codeberg Pages and CI.",
+          "tier": "free-forever",
+          "tags": ["git", "foss", "hosting"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Bitbucket",
+          "url": "https://bitbucket.org/",
+          "description": "Unlimited public and private Git repos for up to 5 users with Bitbucket Pipelines for CI/CD.",
+          "tier": "free-tier",
+          "tags": ["git", "ci-cd", "hosting"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "PaaS",
+      "slug": "paas",
+      "description": "Platform-as-a-Service with free hosting tiers.",
+      "entries": [
+        {
+          "name": "Vercel",
+          "url": "https://vercel.com/",
+          "description": "Host frontend apps and serverless functions. Hobby tier: 100GB bandwidth, 100GB-Hours serverless function execution, unlimited static deployments with automatic HTTPS.",
+          "tier": "free-tier",
+          "tags": ["hosting", "serverless", "frontend"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Netlify",
+          "url": "https://www.netlify.com/",
+          "description": "100GB bandwidth/month, 300 build minutes/month, 125k serverless function calls/month, free automatic HTTPS and deploy previews.",
+          "tier": "free-tier",
+          "tags": ["hosting", "serverless", "frontend"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Render",
+          "url": "https://render.com/",
+          "description": "Free static sites, free web services that sleep after 15 minutes of inactivity, free cron jobs, and free PostgreSQL databases that expire after 90 days.",
+          "tier": "free-tier",
+          "tags": ["hosting", "paas"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Fly.io",
+          "url": "https://fly.io/",
+          "description": "Run full apps and databases close to users. Free allowance includes 3 shared-cpu-1x 256MB VMs, 3GB persistent volumes, and 160GB outbound data transfer per month.",
+          "tier": "free-tier",
+          "tags": ["hosting", "containers", "paas"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Railway",
+          "url": "https://railway.app/",
+          "description": "Infrastructure platform where you can provision databases and deploy apps. Free Trial plan includes $5 of usage credit and 500 execution hours/month.",
+          "tier": "free-trial",
+          "tags": ["hosting", "paas", "database"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "CI and CD",
+      "slug": "ci-and-cd",
+      "description": "Continuous integration and delivery services.",
+      "entries": [
+        {
+          "name": "GitHub Actions",
+          "url": "https://github.com/features/actions",
+          "description": "2,000 minutes/month free for private repos, unlimited minutes for public repositories. Includes Linux, Windows and ARM runners.",
+          "tier": "free-tier",
+          "tags": ["ci-cd", "automation", "github"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "CircleCI",
+          "url": "https://circleci.com/",
+          "description": "6,000 build minutes/month for private projects, unlimited collaborators, 30 parallel jobs. Up to 80,000 free build minutes for open source projects.",
+          "tier": "free-tier",
+          "tags": ["ci-cd", "automation"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Buildkite",
+          "url": "https://buildkite.com",
+          "description": "CI pipelines free for 3 users and 5k job minutes/month. Test Analytics developer tier includes 100k test executions/month.",
+          "tier": "free-tier",
+          "tags": ["ci-cd", "automation"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Databases",
+      "slug": "databases",
+      "description": "Managed databases with free tiers.",
+      "entries": [
+        {
+          "name": "Supabase",
+          "url": "https://supabase.com/",
+          "description": "500MB Postgres database, 1GB storage, 50k monthly active users for auth, 2GB egress, unlimited API requests. Projects pause after 1 week of inactivity.",
+          "tier": "free-tier",
+          "tags": ["database", "postgres", "baas", "auth"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "PlanetScale",
+          "url": "https://planetscale.com/",
+          "description": "Serverless MySQL platform. Free Scaler plan includes 5GB storage, 1 billion rows read/month, 10 million rows written/month.",
+          "tier": "free-tier",
+          "tags": ["database", "mysql", "serverless"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "MongoDB Atlas",
+          "url": "https://www.mongodb.com/cloud/atlas",
+          "description": "512MB M0 shared cluster forever free with full MongoDB features, ideal for development and small production workloads.",
+          "tier": "free-tier",
+          "tags": ["database", "mongodb", "nosql"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Neon",
+          "url": "https://neon.tech/",
+          "description": "Serverless Postgres with branching. Free tier includes 1 project, 10 branches, 3GB storage, 100 compute hours/month.",
+          "tier": "free-tier",
+          "tags": ["database", "postgres", "serverless"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Monitoring",
+      "slug": "monitoring",
+      "description": "Uptime, APM and log monitoring with free tiers.",
+      "entries": [
+        {
+          "name": "UptimeRobot",
+          "url": "https://uptimerobot.com/",
+          "description": "50 monitors with 5-minute intervals, free status pages, and notifications via email, Slack, Discord and more.",
+          "tier": "free-tier",
+          "tags": ["monitoring", "uptime"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Grafana Cloud",
+          "url": "https://grafana.com/",
+          "description": "10k series for metrics, 50GB logs, 50GB traces, 500 VUh of k6 testing, and unlimited dashboards and alerts forever free.",
+          "tier": "free-tier",
+          "tags": ["monitoring", "observability", "logs"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Sentry",
+          "url": "https://sentry.io/",
+          "description": "5,000 errors/month, 50 performance transactions, 50 replays, and 1 cron monitor for free. Single user.",
+          "tier": "free-tier",
+          "tags": ["monitoring", "errors", "apm"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "DNS",
+      "slug": "dns",
+      "description": "DNS hosting and management with free tiers.",
+      "entries": [
+        {
+          "name": "Cloudflare DNS",
+          "url": "https://www.cloudflare.com/dns/",
+          "description": "Free authoritative DNS for an unlimited number of domains with DDoS protection, unlimited queries, and global anycast.",
+          "tier": "free-forever",
+          "tags": ["dns", "cdn"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Hurricane Electric Free DNS",
+          "url": "https://dns.he.net/",
+          "description": "Free DNS hosting for up to 50 domains with full IPv6 support, dynamic DNS, and slave zone support.",
+          "tier": "free-forever",
+          "tags": ["dns", "ipv6"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Email",
+      "slug": "email",
+      "description": "Email sending, transactional and inbox services.",
+      "entries": [
+        {
+          "name": "Resend",
+          "url": "https://resend.com/",
+          "description": "3,000 emails/month and 100 emails/day free. Developer-friendly API for transactional email with React templates.",
+          "tier": "free-tier",
+          "tags": ["email", "transactional", "api"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Brevo (Sendinblue)",
+          "url": "https://www.brevo.com/",
+          "description": "300 emails/day free forever with unlimited contacts, marketing automation, and transactional email support.",
+          "tier": "free-tier",
+          "tags": ["email", "transactional", "marketing"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Mailtrap",
+          "url": "https://mailtrap.io/",
+          "description": "Email testing sandbox with 1,000 test emails/month and a single inbox on the free plan. Safe email capture for dev and staging.",
+          "tier": "free-tier",
+          "tags": ["email", "testing"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "slug": "authentication",
+      "description": "Auth-as-a-service with free tiers.",
+      "entries": [
+        {
+          "name": "Clerk",
+          "url": "https://clerk.com/",
+          "description": "10,000 monthly active users free with full auth including social, MFA, organizations, and prebuilt React/Next.js components.",
+          "tier": "free-tier",
+          "tags": ["auth", "iam", "saas"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Auth0",
+          "url": "https://auth0.com/",
+          "description": "7,000 monthly active users and unlimited logins with social, enterprise and passwordless connections. Includes a custom domain.",
+          "tier": "free-tier",
+          "tags": ["auth", "iam", "saas"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Logto",
+          "url": "https://logto.io/",
+          "description": "Open-source auth solution with a free cloud tier of 5,000 monthly active users. Includes social sign-in, MFA and orgs.",
+          "tier": "free-tier",
+          "tags": ["auth", "iam", "foss"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Design and UI",
+      "slug": "design-and-ui",
+      "description": "Design assets, icons, fonts and UI kits.",
+      "entries": [
+        {
+          "name": "Figma",
+          "url": "https://www.figma.com/",
+          "description": "Free for individuals: 3 projects, 3 files, unlimited personal files, and real-time collaboration with up to 2 editors per file.",
+          "tier": "free-tier",
+          "tags": ["design", "ui", "collaboration"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Unsplash",
+          "url": "https://unsplash.com/",
+          "description": "High-resolution royalty-free photos available for commercial and non-commercial use under the Unsplash license.",
+          "tier": "free-forever",
+          "tags": ["images", "photos", "assets"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Lucide Icons",
+          "url": "https://lucide.dev/",
+          "description": "Open-source, customizable SVG icon library with 1,500+ icons, free for any use under the ISC license.",
+          "tier": "open-source",
+          "tags": ["icons", "svg", "design"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    },
+    {
+      "name": "Generative AI",
+      "slug": "generative-ai",
+      "description": "LLM and generative AI services with free tiers.",
+      "entries": [
+        {
+          "name": "Google AI Studio",
+          "url": "https://aistudio.google.com/",
+          "description": "Free access to Gemini Flash and Gemma models. Free tier offers 5 requests/minute, 20 requests/day, and 250k input tokens/minute.",
+          "tier": "free-tier",
+          "tags": ["ai", "llm", "gemini"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Groq",
+          "url": "https://groq.com/",
+          "description": "Fast LLM inference for open models like Llama and Mixtral. Free tier with generous rate limits for development and testing.",
+          "tier": "free-tier",
+          "tags": ["ai", "llm", "inference"],
+          "submittedBy": "free4techies"
+        },
+        {
+          "name": "Hugging Face",
+          "url": "https://huggingface.co/",
+          "description": "Free tier for hosting models and datasets with up to 30k input characters/month for inference and free Spaces hosting.",
+          "tier": "free-tier",
+          "tags": ["ai", "ml", "models"],
+          "submittedBy": "free4techies"
+        }
+      ]
+    }
+  ]
+}
